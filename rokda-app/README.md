@@ -59,11 +59,13 @@ Refer nodejs.yml
 
 Use below command to watch and compile a scss file to css
 
-### `sass --watch .:.`
+### `sass --watch .:.`  
+
+`npm run sass:watch`
 
 
 # Useful git command
-
-`git fetch origin`
+`git clone https://github.com/rokda-finance/rokda.git`  
+`git fetch origin`  
 `git checkout <branchname>`
 

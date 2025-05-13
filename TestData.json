@@ -1,0 +1,5 @@
+[
+    ["Name", "Symbol", "Quantity", "Net Cost", "Current net value", "Avg. buy price", "Market price", "Unrealised PnL", "Unrealised PnL %"],
+    ["ITC Ltd", "ITC", "30", "100000", "150000", "220", "430", "50000", "50"],
+    ["Hindustan Unilever Ltd", "HINDUNILVR", "30", "100000", "150000", "220", "430", "50000", "50"]
+]
