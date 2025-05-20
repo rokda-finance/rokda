@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Style';
 import Table from './Components/table/Table';
 import WatchList from './Components/watchlist/WatchList';
+import Tools from './Components/Tools';
 
 const tableHeader = "Stocks-(India)";
 const headers = ['Name', 'Symbol', 'Quantity', 'Net Cost', 'Current net value', 'Avg. buy price', 'Market price', 'Unrealised PnL', 'Unrealised PnL %'];
@@ -41,27 +42,53 @@ const WatchListButton = () => {
 
   return (
     <>
-      <div className='App-menubar'>
-        <div className='App-menubar-item'>
-          <button className='App-menubar-button' title='Watchlist' onClick={() => onClick()}>
-            <img width="35px" height="35px" src={require("./icons/list-icon.svg").default} alt="Watchlist" />
-          </button>
-        </div>
+      <div className='App-menubar-item' title='Toggle Watchlist'>
+        <button className='App-menubar-button' onClick={() => onClick()}>
+          <img width="35px" height="35px" src={require("./icons/list-icon.svg").default} alt="Watchlist" />
+        </button>
       </div>
 
-      {
-        watchlistVisible && (
-          <div className='watchlist_container'>
-            <WatchList stocks={stocksData} />
-          </div>
-        )
-      }
+      <div
+        className={`watchlist_container_expandable ${watchlistVisible ? 'expanded' : 'collapsed'}`}
+        style={{
+          position: 'absolute',
+          top: '6vh', // Further adjusted to leave even less space from the top
+          left: '6vh', // Leaves space for buttons
+          height: 'calc(100% - 6vh)', // Adjust height to account for adjusted top space
+          width: watchlistVisible ? '30%' : '0',
+          overflow: 'hidden',
+          backgroundColor: '#1e1e1e',
+          zIndex: 1,
+          transition: 'width 0.3s ease-in-out',
+        }}
+      >
+        {watchlistVisible && <WatchList stocks={stocksData} />}
+      </div>
+    </>
+  );
+};
+
+const PortfolioButton = ({ data }: { data: string[][] }) => {
+  const [portfolioVisible, setPortfolioVisible] = useState(true);
+
+  const onClick = () => {
+    setPortfolioVisible(!portfolioVisible);
+  };
+
+  return (
+    <>
+      <div className='App-menubar-item' title='Toggle Portfolio'>
+        <button className='App-menubar-button' onClick={() => onClick()}>
+          <img width="35px" height="35px" src={require("./icons/portfolio-icon.svg").default} alt="Portfolio" />
+        </button>
+      </div>
     </>
   );
 };
 
 function App() {
   const [data, setData] = useState(initialData);
+  const [portfolioVisible, setPortfolioVisible] = useState(true);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -88,18 +115,20 @@ function App() {
       <header className="App-header">
         <div className="App-logo">{"Rokda"}</div>
       </header>
+      
       <div className="App-body">
+      <div className='App-menubar'>
         {WatchListButton()}
-        
+        <PortfolioButton data={data} />
+      </div>
         <div className="App-mainarea">
-          <input
-            type="file"
-            accept=".json"
-            onChange={handleFileUpload}
-            className="App-upload-input"
-          />
-          <Table tableHeader={tableHeader} headers={headers} data={data}></Table>
-
+          <div className="App-portfolio">
+            <h1 style={{ fontSize: '1.5rem', textAlign: 'center', margin: '1rem auto' }}>Portfolio Holding</h1>
+            {portfolioVisible && (
+              <Table tableHeader={tableHeader} headers={headers} data={data}></Table>
+            )}
+          </div>
+          <Tools handleFileUpload={handleFileUpload} />
         </div>
       </div>
     </div>

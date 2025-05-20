@@ -56,9 +56,11 @@
   flex: auto;
   width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row; /* Adjusted to fit tools and main content side by side */
+  align-items: stretch; /* Ensures both sections take full height */
+  justify-content: space-between; /* Distributes space between main content and tools */
+  padding: 1rem; /* Adds spacing around the content */
+  overflow: hidden; /* Ensures content stays within the main area */
 }
 
 .App-menubar {
@@ -100,6 +102,20 @@
   }
 }
 
+.App-tools {
+  position: relative; /* Changed to relative to fit within the main area */
+  height: 100%; /* Matches the height of the main area */
+  width: 20%; /* Maintains 20% width for tools */
+  display: flex;
+  flex-direction: column; /* Vertical layout */
+  align-items: flex-start; /* Align content to the left within the component */
+  justify-content: flex-start;
+  padding: 1rem; /* Add padding for spacing */
+  border: 2px solid #61dafb; /* Highlight the tools section */
+  border-radius: 8px; /* Add rounded corners */
+  overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -111,5 +127,33 @@
   }
   to {
     transform: scaleX(0.9);
+  }
+}
+
+// Media queries for responsiveness
+@media (max-width: 768px) {
+  .App-body {
+    flex-direction: column;
+  }
+
+  .App-mainarea {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .App-tools {
+    width: 100%;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .App-header {
+    font-size: calc(6px + 2vmin);
+    padding: 0.5rem;
+  }
+
+  .App-tools {
+    padding: 0.5rem;
   }
 }
