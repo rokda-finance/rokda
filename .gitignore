@@ -1,3 +1,26 @@
 rokda-app/src/Components/watchlist/WatchList.css.map
 rokda-app/src/style/App.css.map
 rokda-app/src/Components/table/Table.css.map
+
+# Node modules
+node_modules/
+rokda-app/node_modules/
+
+# Build output
+dist/
+build/
+rokda-app/build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+.DS_Store
+.env
+.env.*
+*.local
+
+# VSCode
+.vscode/
