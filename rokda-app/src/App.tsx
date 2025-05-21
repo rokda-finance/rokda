@@ -106,10 +106,10 @@ const PortfolioButton = ({ data }: { data: string[][] }) => {
 
 function App() {
   const [data, setData] = useState(initialData);
-  const [stocksTableExpanded, setStocksTableExpanded] = useState(true);
-  const [realEstateTableExpanded, setRealEstateTableExpanded] = useState(true);
-  const [criptoTableExpanded, setCriptoTableExpanded] = useState(true);
-  const [bullionTableExpanded, setBullionTableExpanded] = useState(true);
+  const [stocksTableExpanded, setStocksTableExpanded] = useState(false);
+  const [realEstateTableExpanded, setRealEstateTableExpanded] = useState(false);
+  const [criptoTableExpanded, setCriptoTableExpanded] = useState(false);
+  const [bullionTableExpanded, setBullionTableExpanded] = useState(false);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -147,7 +147,20 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div className="App-logo">{"Rokda"}</div>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          padding: '0',
+          marginLeft: 0,
+        }}>
+          <img
+            src={require('./res/rokda-logo.svg').default}
+            alt="Rokda App Icon"
+            className="rokda-logo-img"
+          />
+          <span className="App-logo">Rokda Finance</span>
+        </div>
       </header>
       <div className="App-body">
         <div className='App-menubar'>
