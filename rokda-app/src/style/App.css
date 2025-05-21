@@ -109,6 +109,43 @@
   color: #61dafb;
 }
 
+.App-portfolio-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.App-portfolio-header h1 {
+  font-size: 1.5rem;
+  text-align: left;
+  margin: 1rem 0 1rem 0.5rem;
+}
+
+.App-table-toggle {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  background: #222;
+  color: #61dafb;
+  cursor: pointer;
+}
+
+.App-portfolio-table-container {
+  flex: 1 1 0;
+  max-height: 90vh;
+  overflow-y: auto;
+  width: 100%;
+  padding-right: 1rem;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.App-portfolio-table-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
 @keyframes App-logo-spin {
   from {
     transform: scaleX(1);

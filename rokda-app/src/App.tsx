@@ -33,6 +33,24 @@ const stocksData = [
   }
 ];
 
+const realEstateHeaders = ['Property', 'Location', 'Value', 'Rental Income'];
+const realEstateData = [
+  ['Apartment', 'Mumbai', '1,00,00,000', '50,000'],
+  ['Villa', 'Bangalore', '2,50,00,000', '1,00,000'],
+];
+
+const criptoHeaders = ['Coin', 'Symbol', 'Quantity', 'Current Value', 'Buy Price', 'Market Price', 'Unrealised PnL', 'Unrealised PnL %'];
+const criptoData = [
+  ['Bitcoin', 'BTC', '2', '5,000,000', '2,000,000', '2,500,000', '1,000,000', '20'],
+  ['Ethereum', 'ETH', '10', '2,000,000', '150,000', '200,000', '500,000', '33.3'],
+];
+
+const bullionHeaders = ['Metal', 'Quantity (g)', 'Current Value', 'Buy Price', 'Market Price', 'Unrealised PnL', 'Unrealised PnL %'];
+const bullionData = [
+  ['Gold', '100', '6,00,000', '5,00,000', '6,000', '1,00,000', '20'],
+  ['Silver', '500', '3,00,000', '2,00,000', '600', '1,00,000', '50'],
+];
+
 const WatchListButton = () => {
   const [watchlistVisible, setWatchlistVisible] = useState(false);
 
@@ -88,7 +106,10 @@ const PortfolioButton = ({ data }: { data: string[][] }) => {
 
 function App() {
   const [data, setData] = useState(initialData);
-  const [portfolioVisible, setPortfolioVisible] = useState(true);
+  const [stocksTableExpanded, setStocksTableExpanded] = useState(true);
+  const [realEstateTableExpanded, setRealEstateTableExpanded] = useState(true);
+  const [criptoTableExpanded, setCriptoTableExpanded] = useState(true);
+  const [bullionTableExpanded, setBullionTableExpanded] = useState(true);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -115,18 +136,55 @@ function App() {
       <header className="App-header">
         <div className="App-logo">{"Rokda"}</div>
       </header>
-      
       <div className="App-body">
-      <div className='App-menubar'>
-        {WatchListButton()}
-        <PortfolioButton data={data} />
-      </div>
+        <div className='App-menubar'>
+          {WatchListButton()}
+          <PortfolioButton data={data} />
+        </div>
         <div className="App-mainarea">
-          <div className="App-portfolio">
-            <h1 style={{ fontSize: '1.5rem', textAlign: 'center', margin: '1rem auto' }}>Portfolio Holding</h1>
-            {portfolioVisible && (
-              <Table tableHeader={tableHeader} headers={headers} data={data}></Table>
-            )}
+          <div className="App-portfolio-table-container">
+            <div className="App-portfolio">
+              {/* Stocks Table */}
+              <div className="App-portfolio-header">
+                <h1>Stocks Investment</h1>
+                <button className="App-table-toggle" onClick={() => setStocksTableExpanded((prev) => !prev)}>
+                  <span style={{display: 'inline-block', transform: stocksTableExpanded ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s'}}>▶</span>
+                </button>
+              </div>
+              {stocksTableExpanded ? (
+                <Table tableHeader={tableHeader} headers={headers} data={data}></Table>
+              ) : null}
+              {/* Real Estate Table */}
+              <div className="App-portfolio-header" style={{marginTop: '2rem'}}>
+                <h1>Real Estate</h1>
+                <button className="App-table-toggle" onClick={() => setRealEstateTableExpanded((prev) => !prev)}>
+                  <span style={{display: 'inline-block', transform: realEstateTableExpanded ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s'}}>▶</span>
+                </button>
+              </div>
+              {realEstateTableExpanded ? (
+                <Table tableHeader="" headers={realEstateHeaders} data={realEstateData}></Table>
+              ) : null}
+              {/* Cripto Table */}
+              <div className="App-portfolio-header" style={{marginTop: '2rem'}}>
+                <h1>Cripto</h1>
+                <button className="App-table-toggle" onClick={() => setCriptoTableExpanded((prev) => !prev)}>
+                  <span style={{display: 'inline-block', transform: criptoTableExpanded ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s'}}>▶</span>
+                </button>
+              </div>
+              {criptoTableExpanded ? (
+                <Table tableHeader="" headers={criptoHeaders} data={criptoData}></Table>
+              ) : null}
+              {/* Bullion Table */}
+              <div className="App-portfolio-header" style={{marginTop: '2rem'}}>
+                <h1>Bullion</h1>
+                <button className="App-table-toggle" onClick={() => setBullionTableExpanded((prev) => !prev)}>
+                  <span style={{display: 'inline-block', transform: bullionTableExpanded ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s'}}>▶</span>
+                </button>
+              </div>
+              {bullionTableExpanded ? (
+                <Table tableHeader="" headers={bullionHeaders} data={bullionData}></Table>
+              ) : null}
+            </div>
           </div>
           <Tools handleFileUpload={handleFileUpload} />
         </div>
