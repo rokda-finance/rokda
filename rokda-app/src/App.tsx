@@ -131,6 +131,19 @@ function App() {
     }
   };
 
+  // Calculate Net Asset Values
+  const stocksNetAssetValue = data.reduce((sum, row) => sum + (parseFloat(row[4].toString().replace(/,/g, '')) || 0), 0);
+  const realEstateNetAssetValue = realEstateData.reduce((sum, row) => sum + (parseFloat(row[2].toString().replace(/,/g, '')) || 0), 0);
+  const criptoNetAssetValue = criptoData.reduce((sum, row) => sum + (parseFloat(row[3].toString().replace(/,/g, '')) || 0), 0);
+  const bullionNetAssetValue = bullionData.reduce((sum, row) => sum + (parseFloat(row[2].toString().replace(/,/g, '')) || 0), 0);
+
+  // NAV history data for the chart
+  const navHistoryData = [
+    { name: '1M Ago', nav: 1200000 },
+    { name: '15D Ago', nav: 1250000 },
+    { name: 'Now', nav: 1300000 }
+  ];
+
   return (
     <div className="App">
       <header className="App-header">
@@ -143,42 +156,90 @@ function App() {
         </div>
         <div className="App-mainarea">
           <div className="App-portfolio-table-container">
+            <div className="App-nav-history-container">
+              <div className="App-nav-history-title">Portfolio NAV Over Time</div>
+              <div className="App-nav-history-chart">
+                {/* Chart fallback if recharts fails */}
+                <svg width="100%" height="120" viewBox="0 0 400 120" style={{ background: '#23272f', borderRadius: '1rem' }}>
+                  <polyline fill="none" stroke="#ffd700" strokeWidth="4" points="20,100 150,80 280,60 380,40" />
+                  <circle cx="20" cy="100" r="6" fill="#ffd700" />
+                  <circle cx="150" cy="80" r="6" fill="#ffd700" />
+                  <circle cx="280" cy="60" r="6" fill="#ffd700" />
+                  <circle cx="380" cy="40" r="7" fill="#ffd700" stroke="#197278" strokeWidth="2" />
+                  <text x="20" y="115" fill="#b2b2b2" fontSize="13">1M Ago</text>
+                  <text x="150" y="115" fill="#b2b2b2" fontSize="13">15D Ago</text>
+                  <text x="280" y="115" fill="#b2b2b2" fontSize="13">Now</text>
+                </svg>
+              </div>
+              <div className="App-nav-history-chart-legend">
+                <span className="App-nav-history-label">1M Ago</span>
+                <span className="App-nav-history-value">₹12,00,000</span>
+                <span className="App-nav-history-label">15D Ago</span>
+                <span className="App-nav-history-value">₹12,50,000</span>
+                <span className="App-nav-history-label">Now</span>
+                <span className="App-nav-history-value App-nav-history-current">₹13,00,000</span>
+              </div>
+            </div>
             <div className="App-portfolio">
               {/* Stocks Table */}
-              <div className="App-portfolio-header">
+              <div className={`App-portfolio-header${!stocksTableExpanded ? ' collapsed' : ''}`}>
                 <h1>Stocks Investment</h1>
+                {!stocksTableExpanded && (
+                  <div className="App-nav-weightage-group">
+                    <span className="App-nav-value">NAV: ₹{stocksNetAssetValue.toLocaleString()}</span>
+                    <span className="App-weightage">Weightage: 40%</span>
+                  </div>
+                )}
                 <button className="App-table-toggle" onClick={() => setStocksTableExpanded((prev) => !prev)}>
-                  <span style={{display: 'inline-block', transform: stocksTableExpanded ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s'}}>▶</span>
+                  <span className={`App-table-arrow${stocksTableExpanded ? ' expanded' : ''}`}>▶</span>
                 </button>
               </div>
               {stocksTableExpanded ? (
                 <Table tableHeader={tableHeader} headers={headers} data={data}></Table>
               ) : null}
               {/* Real Estate Table */}
-              <div className="App-portfolio-header" style={{marginTop: '2rem'}}>
+              <div className={`App-portfolio-header${!realEstateTableExpanded ? ' collapsed' : ''}`} style={{marginTop: '2rem'}}>
                 <h1>Real Estate</h1>
+                {!realEstateTableExpanded && (
+                  <div className="App-nav-weightage-group">
+                    <span className="App-nav-value">NAV: ₹{realEstateNetAssetValue.toLocaleString()}</span>
+                    <span className="App-weightage">Weightage: 30%</span>
+                  </div>
+                )}
                 <button className="App-table-toggle" onClick={() => setRealEstateTableExpanded((prev) => !prev)}>
-                  <span style={{display: 'inline-block', transform: realEstateTableExpanded ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s'}}>▶</span>
+                  <span className={`App-table-arrow${realEstateTableExpanded ? ' expanded' : ''}`}>▶</span>
                 </button>
               </div>
               {realEstateTableExpanded ? (
                 <Table tableHeader="" headers={realEstateHeaders} data={realEstateData}></Table>
               ) : null}
               {/* Cripto Table */}
-              <div className="App-portfolio-header" style={{marginTop: '2rem'}}>
+              <div className={`App-portfolio-header${!criptoTableExpanded ? ' collapsed' : ''}`} style={{marginTop: '2rem'}}>
                 <h1>Cripto</h1>
+                {!criptoTableExpanded && (
+                  <div className="App-nav-weightage-group">
+                    <span className="App-nav-value">NAV: ₹{criptoNetAssetValue.toLocaleString()}</span>
+                    <span className="App-weightage">Weightage: 20%</span>
+                  </div>
+                )}
                 <button className="App-table-toggle" onClick={() => setCriptoTableExpanded((prev) => !prev)}>
-                  <span style={{display: 'inline-block', transform: criptoTableExpanded ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s'}}>▶</span>
+                  <span className={`App-table-arrow${criptoTableExpanded ? ' expanded' : ''}`}>▶</span>
                 </button>
               </div>
               {criptoTableExpanded ? (
                 <Table tableHeader="" headers={criptoHeaders} data={criptoData}></Table>
               ) : null}
               {/* Bullion Table */}
-              <div className="App-portfolio-header" style={{marginTop: '2rem'}}>
+              <div className={`App-portfolio-header${!bullionTableExpanded ? ' collapsed' : ''}`} style={{marginTop: '2rem'}}>
                 <h1>Bullion</h1>
+                {!bullionTableExpanded && (
+                  <div className="App-nav-weightage-group">
+                    <span className="App-nav-value">NAV: ₹{bullionNetAssetValue.toLocaleString()}</span>
+                    <span className="App-weightage">Weightage: 10%</span>
+                  </div>
+                )}
                 <button className="App-table-toggle" onClick={() => setBullionTableExpanded((prev) => !prev)}>
-                  <span style={{display: 'inline-block', transform: bullionTableExpanded ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s'}}>▶</span>
+                  <span className={`App-table-arrow${bullionTableExpanded ? ' expanded' : ''}`}>▶</span>
                 </button>
               </div>
               {bullionTableExpanded ? (

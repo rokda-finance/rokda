@@ -1,3 +1,50 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #23272f;
+  border-radius: 0.7rem;
+  box-shadow: 0 1px 6px rgba(25, 114, 120, 0.07);
+  margin-bottom: 1.5rem;
+}
+
+th, td {
+  padding: 0.7rem 1rem;
+  text-align: right;
+  font-size: 1rem;
+}
+
+th {
+  background: #23272f;
+  color: #ffd700;
+  font-weight: 600;
+  border-bottom: 2px solid #31343b;
+}
+
+td {
+  background: #23272f;
+  color: #e0e0e0;
+  border-bottom: 1px solid #31343b;
+}
+
+tr:hover td {
+  background: #22252b;
+  color: #ffd700;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+.table-header {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffd700;
+  background: none;
+  padding: 1rem 1rem 0.5rem 1rem;
+  border-radius: 0.7rem 0.7rem 0 0;
+  text-align: left;
+}
+
 .TableHeader {
   width: 100%;
   font-size: large;
